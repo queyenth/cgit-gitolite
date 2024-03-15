@@ -27,6 +27,16 @@
   gitolite setup -pk <yourname>.pub
 #+END_SRC
 
+Cool thingy to auto-create repos
+#+BEGIN_SRC
+  @users = qqq
+  repo CREATOR/[a-z]..*
+      C = @users
+      RW+ = CREATOR
+      RW = WRITERS
+      R = READERS
+#+END_SRC
+
 ** Add the nginx config (somehow, as a vhost, or just adjust the nginx.conf)
 Also don't forget to change ~user~ directive in nginx to run it from =git= user.
 
