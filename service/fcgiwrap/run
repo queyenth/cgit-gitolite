@@ -1,0 +1,3 @@
+#!/bin/sh
+
+exec fcgiwrap -s unix:/home/git/service/fcgiwrap/fcgiwrap.sock 2>&1

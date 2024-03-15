@@ -1,0 +1,56 @@
+* This is just a reminder for me how to setup cgit + gitolite + fcgiwrap + nginx on server running on void-linux
+** Update the system and install all the necessary stuff
+#+BEGIN_SRC shell
+  xbps-install -Syu git net-tools mg highlight cgit nginx fcgiwrap gitolite
+#+END_SRC
+
+** Create the git user
+#+BEGIN_SRC shell
+  useradd -m -r -s /bin/bash git
+#+END_SRC
+
+** Add the service to run user-service for git user (to run fcgiwrap)
+#+BEGIN_SRC shell
+  cp runsvdir-git /etc/sv/runsvdir-git
+#+END_SRC
+
+** Add the fcgiwrap service to user git and run the runsvdir-git service
+#+BEGIN_SRC shell
+  mkdir -p /home/git/service
+  cp -rv service/fcgiwrap /home/git/service
+  sv start runsvdir-git
+#+END_SRC
+
+** Gitolite (copied from the [[https://gitolite.com/gitolite/quick_install][site]], may be changed, dunno)
+<yourname> is the public key you copied on the server, actually you can get it from ~/root/.ssh/authorized_keys~ I guess.
+#+BEGIN_SRC
+  gitolite setup -pk <yourname>.pub
+#+END_SRC
+
+** Add the nginx config (somehow, as a vhost, or just adjust the nginx.conf)
+Also don't forget to change ~user~ directive in nginx to run it from =git= user.
+
+** cgit config (/etc/cgitrc)
+#+BEGIN_SRC
+cache-size=1000
+css=/cgit.css
+clone-prefix=git@git.rpi.cc:
+enable-index-links=1
+enable-follow-links=1
+enable-log-filecount=1
+enable-log-linecount=1
+max-stats=quarter
+root-title=QQQ's repos
+root-desc=Embarassing stuff
+snapshots=tar.gz
+scan-path=/home/git/repositories/
+virtual-root=/
+#+END_SRC
+
+** Run nginx
+#+BEGIN_SRC shell
+  sv start nginx
+#+END_SRC
+
+** PROFIT
+But probably something is off.
