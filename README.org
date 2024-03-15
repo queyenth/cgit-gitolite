@@ -42,7 +42,7 @@ Also don't forget to change ~user~ directive in nginx to run it from =git= user.
 
 ** cgit config (/etc/cgitrc)
 #+BEGIN_SRC
-cache-size=1000
+#cache-size=1000
 css=/cgit.css
 clone-prefix=git@git.rpi.cc:
 enable-index-links=1
@@ -53,6 +53,7 @@ max-stats=quarter
 root-title=QQQ's repos
 root-desc=Embarassing stuff
 snapshots=tar.gz
+project-list=/home/git/projects.list
 scan-path=/home/git/repositories/
 virtual-root=/
 #+END_SRC
